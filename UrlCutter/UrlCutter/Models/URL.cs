@@ -1,11 +1,15 @@
 ﻿using System.IO.Hashing;
 using System.Text.RegularExpressions;
 using System.Text;
+using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 
 namespace UrlCutter.Models
 {
     public class URL
     {
+        [Key]
+        public int id { get; set; }
         public string? LongUrl { get; set; }
         public string? ShortUrl { get; set; }
         public string? Token { get; set; }
@@ -40,8 +44,9 @@ namespace UrlCutter.Models
         private string CreateToken(string longUrl)
         {
             Crc64 crc = new Crc64();
-            crc.Append(Encoding.ASCII.GetBytes(longUrl));
-            var token = Encoding.ASCII.GetString(crc.GetCurrentHash());
+            crc.Append(Encoding.UTF8.GetBytes(longUrl));
+            var token = Encoding.UTF8.GetString(crc.GetCurrentHash());
+            Console.WriteLine($"Token lenght: {token.Length}\n");
             return token;
         }
 

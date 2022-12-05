@@ -9,6 +9,21 @@
     <form method="post">
         <label>Введите ссылку</label>
         <input asp-for="LongUrl" />
+        <br>
+        @{
+            if(Model != null)
+            {
+                <label>
+                    Короткая ссылка: <a href="@Model.LongUrl">@Model.ShortUrl</a>
+                </label>
+                
+            }
+            else
+            {
+                <label>Короткая ссылка: </label>
+            }
+        }
+        <br>
         <button value="Submit" type="submit">Уменьшить</button>
     </form>
 </div>
