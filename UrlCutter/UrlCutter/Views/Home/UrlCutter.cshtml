@@ -1,0 +1,14 @@
+﻿@model URL
+@{
+    ViewData["Title"] = "UrlCutter";
+}
+
+
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <form method="post">
+        <label>Введите ссылку</label>
+        <input asp-for="LongUrl" />
+        <button value="Submit" type="submit">Уменьшить</button>
+    </form>
+</div>
