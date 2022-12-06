@@ -3,6 +3,10 @@
 Так как мне нужно будет для проверки генерировать много ссылок, у меня должна быть возможность не просто через UI сгенерировать короткую ссылку, но и через обычный HTTP запрос должна быть возможность.
 
 ## Пример запроса: 
->https://localhost:7143/Home/UrlCutter/?id=https://habr.com/ru/sandbox/32648/
+>https://localhost:7143/?link=https://professorweb.ru/my/ASP_NET/webforms_4_5/level2/2_2.php
+>https://localhost:7143/1CWy2WvT8
 
->https://localhost:7143/Home/UrlCutter/?id=https://proglib.io/p/a-mozhno-pokoroche-kak-rabotayut-sokrashchateli-ssylok-2020-02-24
+## Ответ
+//Token: 1CWy2WvT8
+//LongUrl: https://professorweb.ru/my/ASP_NET/webforms_4_5/level2/2_2.php
+
