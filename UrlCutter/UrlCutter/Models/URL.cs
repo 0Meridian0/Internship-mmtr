@@ -47,7 +47,7 @@ namespace UrlCutter.Models
 
             var base62 = new Base62Converter(); 
             var token = base62.Encode(hashStr);
-            Console.WriteLine(token.Length);
+            //Console.WriteLine(token.Length);
 
             return token;
         }

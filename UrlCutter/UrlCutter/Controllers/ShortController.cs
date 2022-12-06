@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System;
 using UrlCutter.Models;
 
 namespace UrlCutter.Controllers
@@ -12,7 +11,7 @@ namespace UrlCutter.Controllers
         [HttpGet]
         public IActionResult Index(string shortUrl)
         {
-            db.ShowDbContent();
+            //db.ShowDbContent();
             if (!string.IsNullOrEmpty(shortUrl.ToString()))
             {
                 var resp = db.Urls.Where(s => s.Token == shortUrl.ToString()).FirstOrDefault();

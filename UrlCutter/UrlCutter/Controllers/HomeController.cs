@@ -16,11 +16,12 @@ namespace UrlCutter.Controllers
             if (link != null)
             {
                 URL url = new URL(link);
-                //Console.WriteLine(url.ToString());
 
                 if(!db.CheckDataInDb(url))
                     db.SaveToDb(url);
-                return Ok(url.ToString());// Json(url.ToString());
+                return Ok(url.ToString());
+
+                //Json(url.ToString());
                 //return View(url);
             }
             return View();
