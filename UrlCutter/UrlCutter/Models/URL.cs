@@ -1,8 +1,9 @@
 ﻿using System.IO.Hashing;
 using System.Text.RegularExpressions;
 using System.Text;
-using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Base62;
 
 namespace UrlCutter.Models
 {
@@ -11,7 +12,6 @@ namespace UrlCutter.Models
         [Key]
         public int id { get; set; }
         public string? LongUrl { get; set; }
-        public string? ShortUrl { get; set; }
         public string? Token { get; set; }
 
         public URL() { }
@@ -21,11 +21,10 @@ namespace UrlCutter.Models
             {
                 LongUrl = url;
                 Token = CreateToken(url);
-                ShortUrl = CreateTinyUrl(url, Token);
             }
             else
             {
-                throw new Exception("Введенная строка не является url");
+                Token = "*Ссылка не является url*";
             }
         }
 
@@ -43,30 +42,19 @@ namespace UrlCutter.Models
 
         private string CreateToken(string longUrl)
         {
-            Crc64 crc = new Crc64();
-            crc.Append(Encoding.UTF8.GetBytes(longUrl));
-            var token = Encoding.UTF8.GetString(crc.GetCurrentHash());
-            Console.WriteLine($"Token lenght: {token.Length}\n");
+            var hashByte = Crc32.Hash(Encoding.Unicode.GetBytes(longUrl));
+            string hashStr = Encoding.Unicode.GetString(hashByte);
+
+            var base62 = new Base62Converter(); 
+            var token = base62.Encode(hashStr);
+            Console.WriteLine(token.Length);
+
             return token;
         }
-
-        private string CreateTinyUrl(string longUrl, string token)
-        {
-            var split = longUrl.Split('/');
-
-            string domen = "";
-            for (int i = 0; i < 3; i++)
-            {
-                domen += split[i] + "/";
-            }
-
-            string tinyUrl = domen + token;
-            return tinyUrl;
-        }
-
+        
         public override string ToString()
         {
-            return $"LongUrl: {LongUrl} \nShortUrl: {ShortUrl} \nToken: {Token}";
+            return $"LongUrl: {LongUrl}\nToken: {Token}";
         }
     }
 }

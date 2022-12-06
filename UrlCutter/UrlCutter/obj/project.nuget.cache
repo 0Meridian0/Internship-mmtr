@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "mSohjz5SirX+xQuFTcqNJDkrCyW9RfOhZt1t/OLJKIYejLtXpP8SZw2sfWEhfRMziL47HAMnl7Hwg7LInTgf7g==",
+  "dgSpecHash": "SN0LvL2jr7NhkM+EY+3K5OTsTMpyFz0gOYYOeqoB3Gj7wa6DJE4TB2/N7t9/4wo+u4MPDRdYCEPwAFhmFVlJEQ==",
   "success": true,
   "projectFilePath": "C:\\Users\\aasmirnov\\Desktop\\Internship-mmtr\\UrlCutter\\UrlCutter\\UrlCutter.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\aasmirnov\\.nuget\\packages\\base62\\1.3.0\\base62.1.3.0.nupkg.sha512",
     "C:\\Users\\aasmirnov\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
     "C:\\Users\\aasmirnov\\.nuget\\packages\\microsoft.data.sqlite.core\\6.0.0\\microsoft.data.sqlite.core.6.0.0.nupkg.sha512",
     "C:\\Users\\aasmirnov\\.nuget\\packages\\microsoft.entityframeworkcore\\6.0.0\\microsoft.entityframeworkcore.6.0.0.nupkg.sha512",

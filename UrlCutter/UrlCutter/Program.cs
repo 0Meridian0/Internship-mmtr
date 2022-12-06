@@ -3,6 +3,8 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
+builder.Services.AddMvc(options => { options.EnableEndpointRouting = false; });
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -13,15 +15,17 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
-app.UseHttpsRedirection();
+app.UseAuthorization();
+
 app.UseStaticFiles();
 
 app.UseRouting();
-
-app.UseAuthorization();
-
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Home}/{action=UrlCutter}/{id?}");
+app.UseMvc(options =>
+{
+    options.MapRoute(
+                    "Default", "{controller}/{action}/{id}",
+                    new { controller = "Home", action = "Index", id = "" }
+                    );
+});
 
 app.Run();

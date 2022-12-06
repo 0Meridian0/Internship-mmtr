@@ -1,29 +1,11 @@
 ﻿@model URL
-@{
-    ViewData["Title"] = "UrlCutter";
-}
-
-
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
-    <form method="post">
-        <label>Введите ссылку</label>
-        <input asp-for="LongUrl" />
-        <br>
-        @{
-            if(Model != null)
-            {
-                <label>
-                    Короткая ссылка: <a href="@Model.LongUrl">@Model.ShortUrl</a>
-                </label>
-                
-            }
-            else
-            {
-                <label>Короткая ссылка: </label>
-            }
+    @{
+        if (Model != null)
+        {
+            <h5>@Model.LongUrl</h5> 
+            <h5>Короткий url:@Model.Token</h5>
         }
-        <br>
-        <button value="Submit" type="submit">Уменьшить</button>
-    </form>
+    }
 </div>
