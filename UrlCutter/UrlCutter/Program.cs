@@ -1,9 +1,18 @@
+using System.Text;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddMvc(options => { options.EnableEndpointRouting = false; });
+
+builder.WebHost.ConfigureKestrel(options =>
+{
+    options.RequestHeaderEncodingSelector = (_) => Encoding.UTF8;
+    options.ResponseHeaderEncodingSelector = (_) => Encoding.UTF8;
+
+});
 
 var app = builder.Build();
 

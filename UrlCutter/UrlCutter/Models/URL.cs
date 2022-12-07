@@ -30,7 +30,7 @@ namespace UrlCutter.Models
 
         public bool IsUrl(string url)
         {
-            Regex regex = new Regex("^https?:\\/\\/(?:www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b(?:[-a-zA-Z0-9()@:%_\\+.~#?&\\/=]*)$");
+            Regex regex = new Regex("^https?:\\/\\/(?:www\\.)?[-a-zA-Z0-9А-Яа-я@:%._\\+~#=]{1,256}\\.[a-zA-Z0-9А-Яа-я()]{1,6}\\b(?:[-a-zA-Z0-9А-Яа-я()@:%_\\+.~#?&\\/=]*)$");
 
             MatchCollection matches = regex.Matches(url);
             if (matches.Count > 0)
