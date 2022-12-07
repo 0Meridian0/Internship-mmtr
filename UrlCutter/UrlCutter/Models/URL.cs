@@ -40,7 +40,7 @@ namespace UrlCutter.Models
             return false;
         }
 
-        private string CreateToken(string longUrl)
+        private static string CreateToken(string longUrl)
         {
             var hashByte = Crc32.Hash(Encoding.Unicode.GetBytes(longUrl));
             string hashStr = Encoding.Unicode.GetString(hashByte);

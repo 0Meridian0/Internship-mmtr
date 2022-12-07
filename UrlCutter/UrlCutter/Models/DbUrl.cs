@@ -20,24 +20,19 @@ namespace UrlCutter.Models
             Urls.RemoveRange(Urls);
             SaveChanges();
         }
-        public bool CheckDataInDb(URL url)
+        public  bool CheckDataInDb(URL url)
         {
-            if (Urls.Where(s => s.Token == url.Token).FirstOrDefault() != null)
-                return true;
-            else
-                return false;
+            return (Urls.Where(s => s.Token == url.Token).FirstOrDefault() != null);
         }
 
-        public void SaveToDb(URL url)
+        public async Task SaveToDbAsync(URL url)
         {
-            Urls.Add(url);
-            SaveChanges();
+            await Urls.AddAsync(url);
+            await SaveChangesAsync();
         }
 
         public void ShowDbContent()
         {
-            Urls.ToList();
-
             foreach (var i in Urls.ToList())
             {
                 Console.WriteLine($"ID: {i.id} \nToken: {i.Token}\nLongUrl: {i.LongUrl} \n\n");

@@ -7,7 +7,7 @@ namespace UrlCutter.Controllers
     public class ShortController : Controller
     {
 
-        DbUrl db = new DbUrl();
+        private readonly DbUrl db = new DbUrl();
         [HttpGet]
         public IActionResult Index(string shortUrl)
         {
@@ -15,7 +15,7 @@ namespace UrlCutter.Controllers
             if (!string.IsNullOrEmpty(shortUrl.ToString()))
             {
                 var resp = db.Urls.Where(s => s.Token == shortUrl.ToString()).FirstOrDefault();
-                if (resp != null)
+                if (resp != null && !string.IsNullOrEmpty(resp.LongUrl))
                     return Redirect(resp.LongUrl);
             }
             return Redirect("~/");

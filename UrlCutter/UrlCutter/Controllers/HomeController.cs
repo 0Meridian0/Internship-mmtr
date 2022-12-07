@@ -7,10 +7,10 @@ namespace UrlCutter.Controllers
     [Route("/")]
     public class HomeController : Controller
     {
-        DbUrl db = new DbUrl();
+        private readonly DbUrl db = new DbUrl();
         
         [HttpGet]
-        public IActionResult UrlCutter(string link)
+        public async Task<IActionResult> UrlCutter(string link)
         {
             db.Database.EnsureCreated();
             if (link != null)
@@ -18,7 +18,7 @@ namespace UrlCutter.Controllers
                 URL url = new URL(link);
 
                 if(!db.CheckDataInDb(url))
-                    db.SaveToDb(url);
+                    await db.SaveToDbAsync(url);
                 return Ok(url.ToString());
 
                 //Json(url.ToString());
