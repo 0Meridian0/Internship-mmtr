@@ -20,20 +20,13 @@ namespace UrlCutter.Migrations
 
             modelBuilder.Entity("UrlCutter.Models.URL", b =>
                 {
-                    b.Property<int>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                    b.Property<string>("Token")
+                    .HasColumnType("TEXT");
 
                     b.Property<string>("LongUrl")
-                        .HasColumnType("TEXT");
+                            .HasColumnType("TEXT");
 
-                    b.Property<string>("ShortUrl")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Token")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("id");
+                    b.HasKey("Token");
 
                     b.ToTable("Urls");
                 });

@@ -1,6 +1,9 @@
 using System.Text;
+using UrlCutter.Models;
+
 
 var builder = WebApplication.CreateBuilder(args);
+DbUrl db = new();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
@@ -11,7 +14,6 @@ builder.WebHost.ConfigureKestrel(options =>
 {
     options.RequestHeaderEncodingSelector = (_) => Encoding.UTF8;
     options.ResponseHeaderEncodingSelector = (_) => Encoding.UTF8;
-
 });
 
 var app = builder.Build();

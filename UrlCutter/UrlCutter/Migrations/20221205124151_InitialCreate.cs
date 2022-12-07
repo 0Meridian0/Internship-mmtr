@@ -12,15 +12,12 @@ namespace UrlCutter.Migrations
                 name: "Urls",
                 columns: table => new
                 {
-                    id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    LongUrl = table.Column<string>(type: "TEXT", nullable: true),
-                    ShortUrl = table.Column<string>(type: "TEXT", nullable: true),
-                    Token = table.Column<string>(type: "TEXT", nullable: true)
+                    Token = table.Column<string>(type: "TEXT", nullable: true),
+                    LongUrl = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Urls", x => x.id);
+                    table.PrimaryKey("PK_Urls", x => x.Token);
                 });
         }
 

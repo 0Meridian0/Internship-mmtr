@@ -17,24 +17,17 @@ namespace UrlCutter.Migrations
             modelBuilder.HasAnnotation("ProductVersion", "6.0.0");
 
             modelBuilder.Entity("UrlCutter.Models.URL", b =>
-                {
-                    b.Property<int>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+            {
+                b.Property<string>("Token")
+                    .HasColumnType("TEXT");
 
-                    b.Property<string>("LongUrl")
+                b.Property<string>("LongUrl")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("ShortUrl")
-                        .HasColumnType("TEXT");
+                b.HasKey("Token");
 
-                    b.Property<string>("Token")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("id");
-
-                    b.ToTable("Urls");
-                });
+                b.ToTable("Urls");
+            });
 #pragma warning restore 612, 618
         }
     }
