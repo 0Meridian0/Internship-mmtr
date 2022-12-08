@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using UrlCutter.Models;
 
 
@@ -13,7 +14,7 @@ namespace UrlCutter.Controllers
         {
             if (!string.IsNullOrEmpty(shortUrl))
             {
-                var resp = await db.Urls.Where(s => s.Token == shortUrl.ToString()).FirstOrDefault();
+                var resp = await db.Urls.Where(s => s.Token == shortUrl.ToString()).FirstOrDefaultAsync();
                 if (resp != null && !string.IsNullOrEmpty(resp.LongUrl))
                     return Redirect(resp.LongUrl);
             }
