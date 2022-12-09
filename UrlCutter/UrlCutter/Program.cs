@@ -9,8 +9,7 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddMvc(options => { options.EnableEndpointRouting = false; });
 
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-builder.Services.AddDbContext<DbUrl>(options=>options.UseSqlite(connectionString));
+builder.Services.AddDbContext<DbUrl>();
 
 builder.WebHost.ConfigureKestrel(options =>
 {

@@ -9,6 +9,8 @@ namespace UrlCutter.Models
         public string? Token { get; set; }
         public string? LongUrl { get; set; }
 
+
+        public URL() { }
         public URL(string url, string token)
         {
             LongUrl = url;
