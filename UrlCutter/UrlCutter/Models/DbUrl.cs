@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System.IO;
 
 namespace UrlCutter.Models
 {

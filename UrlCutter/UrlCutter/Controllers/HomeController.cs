@@ -1,7 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System.Text.RegularExpressions;
 using UrlCutter.Managers;
-using UrlCutter.Models;
 
 
 namespace UrlCutter.Controllers
@@ -17,7 +15,7 @@ namespace UrlCutter.Controllers
         }
 
         [HttpGet]
-        public  IActionResult UrlCutter(string link)
+        public async Task<IActionResult> UrlCutter(string link)
         {
             if (!string.IsNullOrEmpty(link))
             {
@@ -25,8 +23,8 @@ namespace UrlCutter.Controllers
                 {
                     return BadRequest("Ссылка не является url");
                 }
-
-                return Ok(_url.MakeUrl(link).ToString());
+                var url = await _url.MakeUrl(link);
+                return Ok(url.ToString());
             }
             return Ok("Введите ссылку");
         }

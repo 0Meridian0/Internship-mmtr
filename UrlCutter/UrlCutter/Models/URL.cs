@@ -1,9 +1,5 @@
-﻿using System.IO.Hashing;
-using System.Text.RegularExpressions;
-using System.Text;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using Base62;
 
 namespace UrlCutter.Models
 {
@@ -13,7 +9,6 @@ namespace UrlCutter.Models
         public string? Token { get; set; }
         public string? LongUrl { get; set; }
 
-        public URL() { }
         public URL(string url, string token)
         {
             LongUrl = url;

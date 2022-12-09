@@ -17,12 +17,6 @@ namespace UrlCutter.Managers
             return await _db.Urls.AnyAsync(s => s.Token == token || (s.Token == token && s.LongUrl != url));
         }
 
-        //todo
-        public async Task<bool> CheckTokenInDb(string token, string next)
-        {
-            return true;
-        }
-
         public async Task SaveToDbAsync(URL url)
         {
             await _db.Urls.AddAsync(url);

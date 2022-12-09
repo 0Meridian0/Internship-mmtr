@@ -16,12 +16,7 @@ namespace UrlCutter.Managers
 
         public async Task<URL> MakeUrl(string link) 
         {
-            var token = link;
-            do
-            {
-                token = await _hashManager.CreateToken(link);
-            }
-            while (!await _dbManager.CheckDataInDb(token, link));
+            var token = await _hashManager.CreateToken(link);
 
             URL url = new(link, token);
             await _dbManager.SaveToDbAsync(url);

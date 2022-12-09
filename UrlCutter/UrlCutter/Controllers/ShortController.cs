@@ -8,7 +8,6 @@ namespace UrlCutter.Controllers
     [Route("/{ShortUrl}")]
     public class ShortController : Controller
     {
-
         [HttpGet]
         public async Task<IActionResult> Index(string shortUrl, DbUrl db)
         {
