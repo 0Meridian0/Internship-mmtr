@@ -9,9 +9,9 @@ namespace UrlCutter.Controllers
     {
         private readonly UrlManager _url;
 
-        public HomeController()
+        public HomeController(UrlManager urlManager)
         {
-            _url = new UrlManager();
+            _url = urlManager;
         }
 
         [HttpGet]

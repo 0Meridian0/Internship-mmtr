@@ -1,19 +1,24 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using UrlCutter.Models;
+using UrlCutter.Managers;
 
 
 namespace UrlCutter.Controllers
 {
-    [Route("/{ShortUrl}")]
+    [Route("/{token}")]
     public class ShortController : Controller
     {
-        [HttpGet]
-        public async Task<IActionResult> Index(string shortUrl, DbUrl db)
+        private readonly DbManager _dbManager;
+        public ShortController(DbManager dbManager)
         {
-            if (!string.IsNullOrEmpty(shortUrl))
+            _dbManager = dbManager;
+        }
+        
+        [HttpGet]
+        public async Task<IActionResult> Index(string token)
+        {
+            if (!string.IsNullOrEmpty(token))
             {
-                var resp = await db.Urls.Where(s => s.Token == shortUrl.ToString()).FirstOrDefaultAsync();
+                var resp = await _dbManager.GetDataFromDbAsync(token);
                 if (resp != null && !string.IsNullOrEmpty(resp.LongUrl))
                     return Redirect(resp.LongUrl);
             }

@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using System.Text;
+using UrlCutter.Managers;
 using UrlCutter.Models;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -9,14 +10,18 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddMvc(options => { options.EnableEndpointRouting = false; });
 
-builder.Services.AddDbContext<DbUrl>();
-
 builder.WebHost.ConfigureKestrel(options =>
 {
     options.RequestHeaderEncodingSelector = (_) => Encoding.UTF8;
     options.ResponseHeaderEncodingSelector = (_) => Encoding.UTF8;
 });
 
+string connection = builder.Configuration.GetConnectionString("DefaultConnection");
+builder.Services.AddDbContext<DbUrl>(options => options.UseMySQL(connection));
+
+builder.Services.AddScoped<DbManager>();
+builder.Services.AddScoped<HashManager>();
+builder.Services.AddScoped<UrlManager>();
 
 var app = builder.Build();
 

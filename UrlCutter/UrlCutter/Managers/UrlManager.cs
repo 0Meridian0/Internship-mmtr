@@ -3,25 +3,44 @@ using UrlCutter.Models;
 
 namespace UrlCutter.Managers
 {
+    /// <summary>
+    /// Отвечает за конечное создание url записи для бд
+    /// </summary>
     public class UrlManager
     {
-        private readonly DbManager _dbManager;
-        private readonly HashManager _hashManager;
+        private readonly DbManager? _dbManager;
+        private readonly HashManager? _hashManager;
 
-        public UrlManager()
+        public UrlManager(HashManager hashManager, DbManager dbManager)
         {
-            _dbManager = new DbManager();
-            _hashManager = new HashManager();
+            _hashManager = hashManager;
+            _dbManager = dbManager;
         }
 
         public async Task<URL> MakeUrl(string link) 
         {
-            var token = await _hashManager.CreateToken(link);
+            var crc32 = _hashManager!.GenerateHash(link);
+            URL url;
 
-            URL url = new(link, token);
-            await _dbManager.SaveToDbAsync(url);
+            while (true)
+            {
+                var token = _hashManager.EncodeByteTo62(crc32);
+                var resp = await _dbManager!.GetDataFromDbAsync(token);
 
-            return url; 
+                if(resp is null)
+                {
+                    url = new URL(link, token);
+                    await _dbManager.SaveToDbAsync(url);
+                    return url;
+                }
+
+                if(resp.LongUrl == link)
+                {
+                    url = new URL(link, token);
+                    return url;
+                }
+                _hashManager.IncreaseChars(ref crc32);
+            }
         }
 
         public bool IsUrl(string url)

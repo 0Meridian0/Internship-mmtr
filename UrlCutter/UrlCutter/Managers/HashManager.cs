@@ -4,67 +4,28 @@ using System.Text;
 
 namespace UrlCutter.Managers
 {
+    /// <summary>
+    /// Отвечает за генерацию токена для указанной пользователем ссылки
+    /// </summary>
     public class HashManager
     {
-        private readonly DbManager _dbManager;
-        private readonly Base62Converter _base62 = new Base62Converter();
+        public HashManager() { }
 
-        public HashManager()
+        public byte[] GenerateHash(string longUrl)
         {
-            _dbManager = new DbManager();
+            return Crc32.Hash(Encoding.UTF8.GetBytes(longUrl));
         }
 
-        public async Task<string> CreateToken(string longUrl)
+        public void IncreaseChars(ref byte[] d)
         {
-            var hashByte = Crc32.Hash(Encoding.UTF8.GetBytes(longUrl));
-            var token = EncodeByteTo62(hashByte);
-
-            if(!await _dbManager.CheckDataInDb(token, longUrl))
-            {
-                return token;
-            }
-            else
-            {
-                while (await _dbManager.CheckDataInDb(token, longUrl))
-                {
-                    token = IncreaseChars(token);
-                }
-                return token;
-            }
-        }
-
-        private static string CorrectTokenLenght(string token)
-        {
-            if (token.Length > 10)
-            {
-                token = token[..10];
-            }
-            if (token.Length < 7)
-            {
-                token = token.Insert(token.Length, new string('0', 7 - token.Length));
-            }
-            return token;
-        }
-
-        private string IncreaseChars(string token)
-        {
-            var d = DecodeByteFrom62(token);
             var i = d.Length - 1;
 
-            if (d[i] >= 127)
+            if (d[i] >= byte.MaxValue/2)
             {
-                while (d[i] >= 127)
+                while (i >= 0 && d[i] >= byte.MaxValue/2)
                 {
                     d[i] = 0;
-
-                    if (i > 0)
-                    {
-                        i--;
-                    }
-                    else
-                    {
-                        break;
-                    }
+                    i--;
                 }
                 if (i > 0)
                 {
@@ -80,23 +41,26 @@ namespace UrlCutter.Managers
             {
                 d[i] += 1;
             }
-
-            token = EncodeByteTo62(d);
-            
-            return token;
         }
 
-        private byte[] DecodeByteFrom62(string token)
+        public string EncodeByteTo62(byte[] d)
         {
-            var tokenDec = _base62.Decode(token);
-            return Encoding.UTF8.GetBytes(tokenDec);
-        }
-
-        private string EncodeByteTo62(byte[] d)
-        {
+            var _base62 = new Base62Converter();
             var encToken = Encoding.UTF8.GetString(d);
             var token = _base62.Encode(encToken);
             return CorrectTokenLenght(token);
+        }
+        private static string CorrectTokenLenght(string token)
+        {
+            if (token.Length > 10)
+            {
+                token = token[..10];
+            }
+            if (token.Length < 7)
+            {
+                token = token.Insert(token.Length, new string('0', 7 - token.Length));
+            }
+            return token;
         }
     }
 }

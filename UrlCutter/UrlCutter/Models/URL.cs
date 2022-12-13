@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace UrlCutter.Models
 {
@@ -8,7 +7,6 @@ namespace UrlCutter.Models
         [Key]
         public string? Token { get; set; }
         public string? LongUrl { get; set; }
-
 
         public URL() { }
         public URL(string url, string token)
