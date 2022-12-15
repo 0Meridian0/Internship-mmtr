@@ -6,11 +6,11 @@ namespace UrlCutter.Managers
     /// <summary>
     /// Отвечает за все обращения к бд
     /// </summary>
-    public class DbManager
+    public class DbRepositoryManager : IDbRepository<URL>
     {
         private readonly DbUrl _db;
 
-        public DbManager(DbUrl db)
+        public DbRepositoryManager(DbUrl db)
         {
             _db = db;
         }

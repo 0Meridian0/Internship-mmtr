@@ -8,10 +8,10 @@ namespace UrlCutter.Managers
     /// </summary>
     public class UrlManager
     {
-        private readonly DbManager? _dbManager;
+        private readonly IDbRepository<URL> _dbManager;
         private readonly HashManager? _hashManager;
 
-        public UrlManager(HashManager hashManager, DbManager dbManager)
+        public UrlManager(HashManager hashManager, DbRepositoryManager dbManager)
         {
             _hashManager = hashManager;
             _dbManager = dbManager;

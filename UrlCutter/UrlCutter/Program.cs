@@ -1,4 +1,5 @@
 using System.Text;
+using UrlCutter;
 using UrlCutter.Factory;
 using UrlCutter.Managers;
 using UrlCutter.Models;
@@ -22,7 +23,7 @@ builder.Services.AddDbContext<DbUrl>(options =>
         .UseDatabase(options)
 );
 
-builder.Services.AddScoped<DbManager>();
+builder.Services.AddScoped<DbRepositoryManager>();
 builder.Services.AddScoped<HashManager>();
 builder.Services.AddScoped<UrlManager>();
 

@@ -7,8 +7,8 @@ namespace UrlCutter.Controllers
     [Route("/{token}")]
     public class ShortController : Controller
     {
-        private readonly DbManager _dbManager;
-        public ShortController(DbManager dbManager)
+        private readonly DbRepositoryManager _dbManager;
+        public ShortController(DbRepositoryManager dbManager)
         {
             _dbManager = dbManager;
         }
