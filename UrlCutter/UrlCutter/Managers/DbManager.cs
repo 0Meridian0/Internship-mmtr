@@ -10,8 +10,6 @@ namespace UrlCutter.Managers
     {
         private readonly DbUrl _db;
 
-        public DbManager(){ }
-
         public DbManager(DbUrl db)
         {
             _db = db;

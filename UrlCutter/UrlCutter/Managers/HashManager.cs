@@ -9,8 +9,6 @@ namespace UrlCutter.Managers
     /// </summary>
     public class HashManager
     {
-        public HashManager() { }
-
         public byte[] GenerateHash(string longUrl)
         {
             return Crc32.Hash(Encoding.UTF8.GetBytes(longUrl));
@@ -50,6 +48,7 @@ namespace UrlCutter.Managers
             var token = _base62.Encode(encToken);
             return CorrectTokenLenght(token);
         }
+
         private static string CorrectTokenLenght(string token)
         {
             if (token.Length > 10)

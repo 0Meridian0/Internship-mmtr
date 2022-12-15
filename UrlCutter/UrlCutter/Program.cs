@@ -1,5 +1,5 @@
-using Microsoft.EntityFrameworkCore;
 using System.Text;
+using UrlCutter.Factory;
 using UrlCutter.Managers;
 using UrlCutter.Models;
 
@@ -16,8 +16,11 @@ builder.WebHost.ConfigureKestrel(options =>
     options.ResponseHeaderEncodingSelector = (_) => Encoding.UTF8;
 });
 
-string connection = builder.Configuration.GetConnectionString("DefaultConnection");
-builder.Services.AddDbContext<DbUrl>(options => options.UseMySQL(connection));
+builder.Services.AddDbContext<DbUrl>(options => 
+        new DatabaseFactory(builder.Configuration)
+        .CreateConnection()
+        .UseDatabase(options)
+);
 
 builder.Services.AddScoped<DbManager>();
 builder.Services.AddScoped<HashManager>();
