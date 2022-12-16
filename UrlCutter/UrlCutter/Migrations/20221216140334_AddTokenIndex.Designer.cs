@@ -10,21 +10,23 @@ using UrlCutter.Models;
 namespace UrlCutter.Migrations
 {
     [DbContext(typeof(DbUrl))]
-    [Migration("20221205124151_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20221216140334_AddTokenIndex")]
+    partial class AddTokenIndex
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder.HasAnnotation("ProductVersion", "6.0.0");
+            modelBuilder
+                .HasAnnotation("ProductVersion", "6.0.1")
+                .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             modelBuilder.Entity("UrlCutter.Models.URL", b =>
                 {
                     b.Property<string>("Token")
-                    .HasColumnType("TEXT");
+                        .HasColumnType("varchar(767)");
 
                     b.Property<string>("LongUrl")
-                            .HasColumnType("TEXT");
+                        .HasColumnType("text");
 
                     b.HasKey("Token");
 
