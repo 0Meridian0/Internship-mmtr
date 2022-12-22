@@ -5,7 +5,6 @@ using UrlCutter.Factory;
 using UrlCutter.Managers;
 using UrlCutter.Models;
 
-
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -64,14 +63,13 @@ await Enumerable.Range(0, 1).ParallelForEachAsync(async _ =>
 {
     var st = new Stopwatch();
     st.Start();
-    var a = "";
-    //Console.WriteLine("start");
+
     try
     {
         await using var scope = app.Services.CreateAsyncScope();
         var manager = scope.ServiceProvider.GetService<UrlManager>();
-        a = "m";//manager!.RandomString();
-        var ur = await manager!.MakeUrl(a);
+
+        var url = await manager!.MakeUrl(manager!.RandomString());
     }
     catch(Exception ex)
     {

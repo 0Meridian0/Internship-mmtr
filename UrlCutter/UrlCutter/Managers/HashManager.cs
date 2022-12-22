@@ -10,14 +10,14 @@ namespace UrlCutter.Managers
     {
         private const string ALPHABET = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
         private const int MAXHASHLENGHT = 10;
-        private readonly int alphabetLenght = ALPHABET.Length;
+        private readonly int _alphabetLenght = ALPHABET.Length;
 
         public byte[] GenerateHash(string longUrl)
         {
             return Crc32.Hash(Encoding.UTF8.GetBytes(longUrl));
         }
 
-        public byte[] IncreaseChars(ref byte[] tokenByte)
+        public void IncreaseChars(ref byte[] tokenByte)
         {
             var i = tokenByte.Length - 1;
 
@@ -37,7 +37,6 @@ namespace UrlCutter.Managers
             {
                 tokenByte[i] += 1;
             }
-            return tokenByte;
         }
 
         public string ConvertToBase62(byte[] bytes)
@@ -45,7 +44,7 @@ namespace UrlCutter.Managers
             var strBuilder = new StringBuilder();
             for (int i = 0; i < MAXHASHLENGHT; i++)
             {
-                strBuilder.Append(i < bytes.Length ? ALPHABET[bytes[i] % alphabetLenght] : ALPHABET[0]);
+                strBuilder.Append(i < bytes.Length ? ALPHABET[bytes[i] % _alphabetLenght] : ALPHABET[0]);
             }
             return strBuilder.ToString();
         }
