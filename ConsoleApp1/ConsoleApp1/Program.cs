@@ -1,27 +1,41 @@
 ﻿using System.IO.Hashing;
 using System.Text;
 
-byte[] b = new byte[3];
+HttpClientHandler clientHandler = new HttpClientHandler();
+clientHandler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; };
+HttpClient clientReq = new HttpClient(clientHandler);
+
+var good = 0;
+var bad = 0;
 
 while (true)
 {
-    Console.WriteLine("Введите строку: ");
-    byte a = byte.Parse(Console.ReadLine());
+    var rndStr = GenerateRandomString(240);
+    var link = "https://localhost:7143/?link=https://127.0.0.1:7143/" + rndStr;
+
+    string req = await clientReq.GetStringAsync(link);
+    var token1 = req.Split(' ')[2];
 
 
-    Console.WriteLine("Добавить в массив?");
-    var flag = Console.ReadLine();
-    if (flag == "y")
+    HttpClient clientResp = new HttpClient(clientHandler);
+    link = $"https://127.0.0.1:7143/{token1}";
+    var resp = await clientResp.GetStringAsync(link);
+
+    if (rndStr == resp)
     {
-        b.Append(a);
-        var crc = Crc32.Hash(b);
-        Console.WriteLine(crc);
+        good++;
     }
-
-    if(flag == "d")
+    else
     {
-        b = null;
+        bad++;
     }
+    Console.WriteLine($"Good: {good}    |   Bad: {bad}");
+}
 
-    flag = string.Empty;
+static string GenerateRandomString(int length)
+{
+Random random = new Random();
+const string chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+return new string(Enumerable.Repeat(chars, length)
+    .Select(s => s[random.Next(s.Length)]).ToArray());
 }

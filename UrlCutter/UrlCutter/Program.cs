@@ -1,7 +1,10 @@
+using System.Diagnostics;
 using System.Text;
+using UrlCutter;
 using UrlCutter.Factory;
 using UrlCutter.Managers;
 using UrlCutter.Models;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,6 +28,11 @@ builder.Services.AddDbContext<DbUrl>(options =>
 builder.Services.AddScoped<DbRepositoryManager>();
 builder.Services.AddScoped<HashManager>();
 builder.Services.AddScoped<UrlManager>();
+builder.Services.AddLogging(opt =>
+{
+    opt.ClearProviders();
+});
+
 
 var app = builder.Build();
 
@@ -38,6 +46,8 @@ if (!app.Environment.IsDevelopment())
 
 app.UseAuthorization();
 
+app.UseHttpsRedirection();
+
 app.UseStaticFiles();
 
 app.UseRouting();
@@ -48,5 +58,30 @@ app.UseMvc(options =>
                     new { controller = "Home", action = "Index", id = "" }
                     );
 });
+
+
+await Enumerable.Range(0, 1).ParallelForEachAsync(async _ =>
+{
+    var st = new Stopwatch();
+    st.Start();
+    var a = "";
+    //Console.WriteLine("start");
+    try
+    {
+        await using var scope = app.Services.CreateAsyncScope();
+        var manager = scope.ServiceProvider.GetService<UrlManager>();
+        a = "m";//manager!.RandomString();
+        var ur = await manager!.MakeUrl(a);
+    }
+    catch(Exception ex)
+    {
+        Console.WriteLine(ex.Message);
+    }
+    finally
+    {
+        Console.WriteLine(st.ElapsedMilliseconds);
+    }
+}, 1);
+return;
 
 app.Run();

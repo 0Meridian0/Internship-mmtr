@@ -2,22 +2,22 @@
 {
     public class DatabaseFactory
     {
-        public string connectionStr;
-        public string databaseName;
+        private readonly string _connectionStr;
+        private readonly string _databaseName;
         public DatabaseFactory(ConfigurationManager config)
         {
-            databaseName = config.GetConnectionString("DatabaseType");
-            connectionStr = config.GetConnectionString(databaseName);
+            _databaseName = config.GetConnectionString("DatabaseType");
+            _connectionStr = config.GetConnectionString(_databaseName);
         }
 
         public IDatabaseType CreateConnection()
         {
-            IDatabaseType data = databaseName.ToLower() switch
+            IDatabaseType data = _databaseName.ToLower() switch
             {
-                "mysql" => new MySqlDatabase(connectionStr),
-                "sqlserver" => new SqlServerDatabase(connectionStr),
+                "mysql" => new MySqlDatabase(_connectionStr),
+                "sqlserver" => new SqlServerDatabase(_connectionStr),
 
-                _ => throw new Exception($"Не удалось найти такое название бд: {databaseName}")
+                _ => throw new Exception($"Не удалось найти такое название бд: {_databaseName}")
             };
             return data;
         }

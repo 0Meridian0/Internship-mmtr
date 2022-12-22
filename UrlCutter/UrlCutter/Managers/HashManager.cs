@@ -1,5 +1,4 @@
-﻿using Base62;
-using System.IO.Hashing;
+﻿using System.IO.Hashing;
 using System.Text;
 
 namespace UrlCutter.Managers
@@ -9,57 +8,56 @@ namespace UrlCutter.Managers
     /// </summary>
     public class HashManager
     {
+        private const string ALPHABET = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+        private const int MAXHASHLENGHT = 10;
+        private readonly int alphabetLenght = ALPHABET.Length;
+
         public byte[] GenerateHash(string longUrl)
         {
             return Crc32.Hash(Encoding.UTF8.GetBytes(longUrl));
         }
 
-        public void IncreaseChars(ref byte[] d)
+        public byte[] IncreaseChars(ref byte[] tokenByte)
         {
-            var i = d.Length - 1;
+            var i = tokenByte.Length - 1;
 
-            if (d[i] >= byte.MaxValue/2)
+            if (tokenByte[i] >= byte.MaxValue/2)
             {
-                while (i >= 0 && d[i] >= byte.MaxValue/2)
+                while (i >= 0 && tokenByte[i] >= byte.MaxValue/2)
                 {
-                    d[i] = 0;
+                    tokenByte[i] = 0;
                     i--;
                 }
                 if (i > 0)
                 {
-                    d[i] += 1;
-                }
-                else
-                {
-                    d[0] += 1;
-                    Array.Resize(ref d, d.Length + 1);
+                    tokenByte[i] += 1;
                 }
             }
             else
             {
-                d[i] += 1;
+                tokenByte[i] += 1;
             }
+            return tokenByte;
         }
 
-        public string EncodeByteTo62(byte[] d)
+        public string ConvertToBase62(byte[] bytes)
         {
-            var _base62 = new Base62Converter();
-            var encToken = Encoding.UTF8.GetString(d);
-            var token = _base62.Encode(encToken);
-            return CorrectTokenLenght(token);
+            var strBuilder = new StringBuilder();
+            for (int i = 0; i < MAXHASHLENGHT; i++)
+            {
+                strBuilder.Append(i < bytes.Length ? ALPHABET[bytes[i] % alphabetLenght] : ALPHABET[0]);
+            }
+            return strBuilder.ToString();
         }
 
-        private static string CorrectTokenLenght(string token)
+        public byte[] ConvertToByte(string token)
         {
-            if (token.Length > 10)
+            var b = new byte[token.Length];
+            for (int i = 0; i < token.Length; i++)
             {
-                token = token[..10];
+                b[i] = (byte)ALPHABET.IndexOf(token[i]);
             }
-            if (token.Length < 7)
-            {
-                token = token.Insert(token.Length, new string('0', 7 - token.Length));
-            }
-            return token;
+            return b;
         }
     }
 }

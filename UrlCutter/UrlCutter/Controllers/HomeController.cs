@@ -1,17 +1,16 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using UrlCutter.Managers;
 
-
 namespace UrlCutter.Controllers
 {
     [Route("/")]
     public class HomeController : Controller
     {
-        private readonly UrlManager _url;
+        private readonly UrlManager _urlManager;
 
         public HomeController(UrlManager urlManager)
         {
-            _url = urlManager;
+            _urlManager = urlManager;
         }
 
         [HttpGet]
@@ -19,12 +18,11 @@ namespace UrlCutter.Controllers
         {
             if (!string.IsNullOrEmpty(link))
             {
-                if (!_url.IsUrl(link))
+                if (!_urlManager.IsUrl(link))
                 {
                     return BadRequest("Ссылка не является url");
                 }
-                var url = await _url.MakeUrl(link);
-                return Ok(url.ToString());
+                return Ok((await _urlManager.MakeUrl(link)).ToString());
             }
             return Ok("Введите ссылку");
         }

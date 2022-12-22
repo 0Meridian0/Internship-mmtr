@@ -12,8 +12,9 @@ namespace UrlCutter.Migrations
                 name: "Urls",
                 columns: table => new
                 {
-                    Token = table.Column<string>(type: "varchar(767)", nullable: false),
-                    LongUrl = table.Column<string>(type: "text", nullable: true)
+                    Token = table.Column<string>(type: "varchar(10)", nullable: false),
+                    LongUrl = table.Column<string>(type: "text", nullable: true),
+                    
                 },
                 constraints: table =>
                 {
