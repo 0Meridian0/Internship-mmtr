@@ -76,7 +76,7 @@ await Enumerable.Range(0, 1).ParallelForEachAsync(async _ =>
         Console.WriteLine(ex.Message);
     }
     finally
-    {
+    { 
         Console.WriteLine(st.ElapsedMilliseconds);
     }
 }, 1);
